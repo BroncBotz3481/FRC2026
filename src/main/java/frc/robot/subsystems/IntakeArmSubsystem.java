@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.Pounds;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Volts;
 
@@ -41,9 +42,9 @@ public class IntakeArmSubsystem extends SubsystemBase
   private SmartMotorControllerConfig masterConfig    = new SmartMotorControllerConfig(this)
       .withControlMode(ControlMode.CLOSED_LOOP)
       .withClosedLoopController(1.35, 0, 0)
-      .withSimClosedLoopController(10, 0, 0)
       .withFeedforward(new ArmFeedforward(0.15, 0, 0))
-      .withSimFeedforward(new ArmFeedforward(0.25, 0, 0.25))
+      .withSimClosedLoopController(20, 0, 0)
+      .withSimFeedforward(new ArmFeedforward(1, 0, 1))
       .withTelemetry("IntakeArmMotor", TelemetryVerbosity.HIGH)
       .withGearing(GroundConstants.gearing)
       .withMotorInverted(true)
@@ -68,10 +69,10 @@ public class IntakeArmSubsystem extends SubsystemBase
 
   private ArmConfig armCfg = new ArmConfig(masterMotorController)
       // Hard limit is applied to the simulation.
-      .withHardLimit(GroundConstants.hardLowerLimit, GroundConstants.hardUpperLimit)
+      .withHardLimit(Degrees.of(-20), GroundConstants.hardUpperLimit)
       // Length and mass of your arm for sim.
       .withLength(GroundConstants.length)
-      .withMass(GroundConstants.weight)
+      .withMass(Pounds.of(1))
       // Telemetry name and verbosity for the arm.
       .withTelemetry("IntakeArm", TelemetryVerbosity.HIGH)
       .withStartingPosition(Degrees.zero());
@@ -102,15 +103,15 @@ public class IntakeArmSubsystem extends SubsystemBase
 
   public Command setAngleCommand(Angle angle)
   {
-//    return arm.setAngle(angle);
-    return run(()->setAngleSetpoint(angle)).withName("SetAngleCommand");
+    return arm.setAngle(angle);
+//    return run(()->setAngleSetpoint(angle)).withName("SetAngleCommand");
   }
 
   public void setAngleSetpoint(Angle angle)
   {
-//    arm.setMechanismPositionSetpoint(angle);
-    masterMotorController.setPosition(angle);
-    slaveMotorController.setPosition(angle);
+    arm.setMechanismPositionSetpoint(angle);
+//    masterMotorController.setPosition(angle);
+//    slaveMotorController.setPosition(angle);
   }
 
   public Command setDutyCycleCommand(double dutyCycle)
@@ -131,12 +132,14 @@ public class IntakeArmSubsystem extends SubsystemBase
   public void periodic()
   {
     arm.updateTelemetry();
+    slaveMotorController.updateTelemetry();
   }
 
   @Override
   public void simulationPeriodic()
   {
     arm.simIterate();
+    slaveMotorController.simIterate();
   }
 
   public BooleanSupplier aroundAngle(Angle angle)

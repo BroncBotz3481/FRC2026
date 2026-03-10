@@ -123,7 +123,7 @@ public class RobotContainer
     agitator.setDefaultCommand(agitator.setDutyCycleCommand(0));
     indexer.setDefaultCommand(indexer.setDutyCycleCommand(-0)); // Set -0.3 before on field
     turretFlywheel.setDefaultCommand(turretFlywheel.setDutyCycle(0));
-    intakeArm.setDefaultCommand(intakeArm.setVoltageCommand(Volts.of(0)));
+//    intakeArm.setDefaultCommand(intakeArm.setVoltageCommand(Volts.of(0)));
   }
 
 
@@ -161,30 +161,30 @@ public class RobotContainer
     } else
     {
       // Regular driver and operator controls.
-      m_driverController.a().whileTrue(new AutoAimCommand(drivebase, driveAngularVelocity));
-      m_driverController.x().whileTrue(drivebase.lockPos());
-      m_driverController.start().and(m_driverController.back()).onTrue(drivebase.zeroGyroWithAlliance());
-
-      m_operatorController.rightTrigger(0.2).whileTrue(new ShootKickIndexCommand(turretFlywheel,
-                                                                                 kicker,
-                                                                                 indexer,
-                                                                                 agitator,
-                                                                                 hood,
-                                                                                 drivebase));
-                                                                                 
-      m_operatorController.povDown().whileTrue(new OutakeCommand(intakeArm, intakeRoller, agitator));
-
-      m_operatorController.x().whileTrue(new ShootKickIndexCommand(turretFlywheel,
-                                                                   kicker,
-                                                                   indexer,
-                                                                   agitator,
-                                                                   hood,
-                                                                   Setpoints.Shooter.hubRPM,
-                                                                   Setpoints.Hood.hubDegree));
-
-      m_operatorController.a().whileTrue(intakeArm.setAngleCommand(Degrees.of(0)));
-      m_operatorController.b().whileTrue(intakeArm.setAngleCommand(Degrees.of(50)));
-      m_operatorController.leftBumper().whileTrue(new IntakeCommand(intakeArm, intakeRoller, agitator));
+//      m_driverController.a().whileTrue(new AutoAimCommand(drivebase, driveAngularVelocity));
+//      m_driverController.x().whileTrue(drivebase.lockPos());
+//      m_driverController.start().and(m_driverController.back()).onTrue(drivebase.zeroGyroWithAlliance());
+//
+//      m_operatorController.rightTrigger(0.2).whileTrue(new ShootKickIndexCommand(turretFlywheel,
+//                                                                                 kicker,
+//                                                                                 indexer,
+//                                                                                 agitator,
+//                                                                                 hood,
+//                                                                                 drivebase));
+//
+//      m_operatorController.povDown().whileTrue(new OutakeCommand(intakeArm, intakeRoller, agitator));
+//
+//      m_operatorController.x().whileTrue(new ShootKickIndexCommand(turretFlywheel,
+//                                                                   kicker,
+//                                                                   indexer,
+//                                                                   agitator,
+//                                                                   hood,
+//                                                                   Setpoints.Shooter.hubRPM,
+//                                                                   Setpoints.Hood.hubDegree));
+//
+//      m_operatorController.a().whileTrue(intakeArm.setAngleCommand(Degrees.of(0)));
+//      m_operatorController.b().whileTrue(intakeArm.setAngleCommand(Degrees.of(50)));
+      m_driverController.button(1).whileTrue(new IntakeCommand(intakeArm, intakeRoller, agitator));
 
     }
 
