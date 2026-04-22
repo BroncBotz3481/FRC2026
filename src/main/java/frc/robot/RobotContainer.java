@@ -5,6 +5,8 @@ import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.Seconds;
 
+import static edu.wpi.first.units.Units.Meters;
+
 import java.util.function.Predicate;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -40,6 +42,7 @@ import frc.robot.commands.TrenchCommand;
 import frc.robot.commands.UnstuckCommand;
 import frc.robot.commands.slowMode;
 import frc.robot.subsystems.AgitatorSubsystem;
+import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.FlywheelSubsystem;
 import frc.robot.subsystems.HoodSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -71,6 +74,7 @@ public class RobotContainer
   private final KickerSubsystem   kicker   = new KickerSubsystem();
   private final HoodSubsystem hood = new HoodSubsystem();
   private final LEDSystem LEDs = new LEDSystem();
+  private final ElevatorSubsystem elevator = new ElevatorSubsystem();
 
   public static Timer                 timerThing           = new Timer();
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -131,6 +135,22 @@ public class RobotContainer
     //                                                         RPM.of(2000)
     //                                                         //Setpoints.Hood.hubDegree
     //                               ).withTimeout(Seconds.of(5)));
+
+   // Set the default command to force the elevator to go to 0.
+  
+
+
+
+
+   m_driverController.a().whileTrue(elevator.setHeightCommand(Meters.of(0.5)));
+   m_driverController.b().whileTrue(elevator.setHeightCommand(Meters.of(1)));
+   // Schedule `set` when the Xbox controller's B button is pressed,
+   // cancelling on release.
+   m_driverController.x().whileTrue(elevator.set(0.3));
+   m_driverController.y().whileTrue(elevator.set(-0.3));
+
+
+
     NamedCommands.registerCommand("AimAtHub", new AutoAimCommand(drivebase, driveAngularVelocity));
     NamedCommands.registerCommand("PreShotAgitate", agitator.setDutyCycleCommand(-0.1).withTimeout(1));
     NamedCommands.registerCommand("ArmUp", intakeArm.setAngleCommand(Setpoints.Trench.intakeArmUpAngle.plus(Degrees.of(2))).withTimeout(0.5));
@@ -214,6 +234,7 @@ public class RobotContainer
     turretFlywheel.setDefaultCommand(turretFlywheel.setDutyCycle(0));
     intakeArm.setDefaultCommand(intakeArm.setDutyCycleCommand(()->m_operatorController.getLeftY(), ()->m_operatorController.getRightY())); //NEED TO CHANGE
     hood.setDefaultCommand(hood.setDegreeCommand(Setpoints.Intake.hoodDownAngle.in(Degrees)));
+    elevator.setDefaultCommand(elevator.setHeightCommand(Meters.of(0)));
 
     
     // intakeArm.setDefaultCommand(intakeArm.setAngleCommand(Setpoints.Intake.intakeArmAngleUp));
