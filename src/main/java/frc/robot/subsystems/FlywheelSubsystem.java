@@ -43,19 +43,18 @@ public class FlywheelSubsystem extends SubsystemBase {
                     .withFeedforward(new SimpleMotorFeedforward(0.17, 0.117, 0.01)) //thanks 3561!
                     .withSimFeedforward(new SimpleMotorFeedforward(0.27937, 0.089836, 0.014557))
                     .withFollowers(Pair.of(flywheelFollowerMotor, true))
-                    .withControlMode(ControlMode.CLOSED_LOOP);
+                    .withControlMode(ControlMode.CLOSED_LOOP)
+                    .withMomentOfInertia(Inches.of(4), Pounds.of(1));
                     //.withVoltageCompensation(Volts.of(12));
 
     private final SmartMotorController motor =
             new TalonFXWrapper(flywheelMotor, DCMotor.getKrakenX60(2), motorConfig);
 
     private final FlyWheelConfig flywheelConfig =
-            new FlyWheelConfig(motor)
-                    .withDiameter(Inches.of(4))
-                    .withMass(Pounds.of(1))
+            new FlyWheelConfig()
                     .withTelemetry("Flywheel", TelemetryVerbosity.HIGH);
 
-    private final FlyWheel flywheel = new FlyWheel(flywheelConfig);
+    private final FlyWheel flywheel = new FlyWheel(flywheelConfig,motor);
 
     public FlywheelSubsystem() {
     }
@@ -65,7 +64,7 @@ public class FlywheelSubsystem extends SubsystemBase {
     }
 
     public Command setVelocityommand(AngularVelocity velocity) {
-        return flywheel.setSpeed(velocity);
+        return flywheel.run(velocity);
     }
 
     public void setVelocitySetpoint(AngularVelocity velocity)

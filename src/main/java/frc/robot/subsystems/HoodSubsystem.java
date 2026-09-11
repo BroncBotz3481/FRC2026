@@ -46,7 +46,10 @@ public class HoodSubsystem extends SubsystemBase {//Modeled as a pivot, since it
           //.withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0, 0, 0))
           .withSimFeedforward(new SimpleMotorFeedforward(0,0,0))
-          .withControlMode(ControlMode.CLOSED_LOOP);
+          .withControlMode(ControlMode.CLOSED_LOOP)
+          .withSoftLimits(HoodConstants.softLimitMin, HoodConstants.softLimitMax)
+          .withStartingPosition(Degrees.of(0))
+          .withMomentOfInertia(HoodConstants.MOIInKilogram);
 
   private final SmartMotorController motor =
       new SparkWrapper(hoodMotor, DCMotor.getNEO(1), motorConfig);
@@ -60,15 +63,14 @@ public class HoodSubsystem extends SubsystemBase {//Modeled as a pivot, since it
                                                   Meters.of(0.5))); // up from the floor reference*/
 
   private final PivotConfig m_config =
-      new PivotConfig(motor)
-          .withHardLimit(HoodConstants.hardLimitMin, HoodConstants.hardLimitMax)
-          .withSoftLimits(HoodConstants.softLimitMin, HoodConstants.softLimitMax)
-          .withTelemetry("Hood", TelemetryVerbosity.HIGH)
-          .withStartingPosition(Degrees.of(0))
+      new PivotConfig()
+          .withHardLimits(HoodConstants.hardLimitMin, HoodConstants.hardLimitMax)
+          .withTelemetry("Hood", TelemetryVerbosity.HIGH);
+          
           //.withMOI(Inches.of(7), Pounds.of(2))
-          .withMOI(HoodConstants.MOIInKilogram);
+        
 
-  private final Pivot hood = new Pivot(m_config);
+  private final Pivot hood = new Pivot(m_config,motor);
 
   public HoodSubsystem() {}
 

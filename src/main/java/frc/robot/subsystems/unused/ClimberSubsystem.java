@@ -70,24 +70,25 @@ public class ClimberSubsystem extends SubsystemBase {
                     .withIdleMode(MotorMode.BRAKE)
                     .withStatorCurrentLimit(Amps.of(40))
                     .withClosedLoopRampRate(Seconds.of(0.25))
-                    .withOpenLoopRampRate(Seconds.of(0.25));
+                    .withOpenLoopRampRate(Seconds.of(0.25))
+                    .withStartingHeight(Meters.of(0.5))
+                    .withMomentOfInertia(Inches.of(4), ClimberConstants.mass);
+
 
     private SparkMax spark = new SparkMax(CanIDConstants.climberCanID, MotorType.kBrushless);
     private SmartMotorController sparkSmartMotorController =
             new SparkWrapper(spark, DCMotor.getNEO(1), smcConfig);
     private ElevatorConfig elevconfig =
-            new ElevatorConfig(sparkSmartMotorController)
-                    .withStartingHeight(Meters.of(0.5))
+            new ElevatorConfig()
                     .withHardLimits(ClimberConstants.hardLimitMin, ClimberConstants.hardLimitMax)
-                    .withMass(ClimberConstants.mass)
                     .withTelemetry("ElevatorMotor", TelemetryVerbosity.HIGH);
 
-    private Elevator elevator = new Elevator(elevconfig);
+    private Elevator elevator = new Elevator(elevconfig,sparkSmartMotorController);
 
     /**
      * Set the height of the elevator.
      *
-     * @param angle Distance to go to.
+     * @param angle Distance to go to.,
      */
     public Command setHeight(Distance height) {
         return elevator.setHeight(height);

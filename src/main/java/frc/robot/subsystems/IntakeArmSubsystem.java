@@ -95,25 +95,24 @@ public class IntakeArmSubsystem extends SubsystemBase
     .withVendorConfig(new SparkMaxConfig().apply(new AbsoluteEncoderConfig().zeroCentered(true)))
 
      //.withExternalEncoderZeroOffset(Degrees.of(-19.31)) // Remove if configured in REV HW Client
-      .withResetPreviousConfig(true);
+      .withResetPreviousConfig(true)
+      .withStartingPosition(Degrees.of(-180));
 
   private SmartMotorController       masterMotorController   = new SparkWrapper(m_masterMotor, DCMotor.getNEO(2),
                                                                                 masterConfig);
 
 
-  private ArmConfig armCfg = new ArmConfig(masterMotorController)
+  private ArmConfig armCfg = new ArmConfig()
       // Hard limit is applied to the simulation.
-      .withHardLimit(GroundConstants.hardLowerLimit, GroundConstants.hardUpperLimit)
+      .withHardLimits(GroundConstants.hardLowerLimit, GroundConstants.hardUpperLimit)
       // Length and mass of your arm for sim.
       .withLength(GroundConstants.length)
-      .withMass(GroundConstants.weight)
       // Telemetry name and verbosity for the arm.
-      .withTelemetry("IntakeArm", TelemetryVerbosity.HIGH)
-      .withSimStartingPosition(Setpoints.Intake.intakeArmStartAngle);
+      .withTelemetry("IntakeArm", TelemetryVerbosity.HIGH);
 
 
   // Arm Mechanism
-  private Arm arm = new Arm(armCfg);
+  private Arm arm = new Arm(armCfg,masterMotorController);
 
   /**
    * Creates a new ExampleSubsystem.

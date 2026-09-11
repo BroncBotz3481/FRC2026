@@ -46,12 +46,10 @@ public class IntakeRollerSubsystem extends SubsystemBase {
             new SparkWrapper(intakeRollerMotor, DCMotor.getNeoVortex(1), motorConfig);
 
     private final FlyWheelConfig intakeRollerConfig =
-            new FlyWheelConfig(motor)
-                    .withDiameter(Inches.of(4))
-                    .withMass(Pounds.of(1))
+            new FlyWheelConfig()
                     .withTelemetry("IntakeRoller", TelemetryVerbosity.LOW);
 
-    private final FlyWheel intakeRoller = new FlyWheel(intakeRollerConfig);
+    private final FlyWheel intakeRoller = new FlyWheel(intakeRollerConfig,motor);
 
     public IntakeRollerSubsystem() {
     }
@@ -61,7 +59,7 @@ public class IntakeRollerSubsystem extends SubsystemBase {
     }
 
     public Command setRPM(double rpm) {
-        return intakeRoller.setSpeed(RPM.of(rpm));
+        return intakeRoller.run(RPM.of(rpm));
     }
 
     public Command setDutyCycleCommand(double dutyCycle) {

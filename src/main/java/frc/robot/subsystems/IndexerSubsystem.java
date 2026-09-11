@@ -46,20 +46,19 @@ public class IndexerSubsystem extends SubsystemBase {
           // .withOpenLoopRampRate(Seconds.of(0.25))
           .withFeedforward(new SimpleMotorFeedforward(0.18, 0.62, 0))
           .withSimFeedforward(new SimpleMotorFeedforward(0, 0.5, 0))
-          .withControlMode(ControlMode.CLOSED_LOOP);
+          .withControlMode(ControlMode.CLOSED_LOOP)
+          .withMomentOfInertia(Inches.of(4), Pounds.of(1));
 
   private final SmartMotorController motor =
       new SparkWrapper(indexMotor, DCMotor.getNEO(1), motorConfig);
 
   private final FlyWheelConfig flywheelConfig =
-      new FlyWheelConfig(motor)
-          .withDiameter(Inches.of(4))
-          .withMass(Pounds.of(1))//Mass & Diameter is for sim only
+      new FlyWheelConfig()//Mass & Diameter is for sim only
           .withTelemetry("Indexer", TelemetryVerbosity.HIGH);
           //.withSoftLimit(RPM.of(-5000), RPM.of(5000))
           //.withSpeedometerSimulation(RPM.of(7500));
 
-  private final FlyWheel indexer = new FlyWheel(flywheelConfig);
+  private final FlyWheel indexer = new FlyWheel(flywheelConfig,motor);
 
   public IndexerSubsystem() {}
 
@@ -68,7 +67,7 @@ public class IndexerSubsystem extends SubsystemBase {
   }
   
   public Command setVeloctiyCommand(AngularVelocity velocity){
-     return indexer.setSpeed(velocity);
+     return indexer.run(velocity);
   }
 
   public Command stopCommand(){

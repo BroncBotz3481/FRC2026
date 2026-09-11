@@ -38,18 +38,17 @@ public class KickerSubsystem extends SubsystemBase {
                     .withMotorInverted(true)//check
                     .withFeedforward(new SimpleMotorFeedforward(0.18, 0.62, 0))
                     .withSimFeedforward(new SimpleMotorFeedforward(0, 0.5, 0)) //30 rpm
-                    .withControlMode(ControlMode.CLOSED_LOOP);
+                    .withControlMode(ControlMode.CLOSED_LOOP)
+                    .withMomentOfInertia(Inches.of(4), Pounds.of(1));
 
     private final SmartMotorController motor =
             new SparkWrapper(kickerMotor, DCMotor.getNEO(1), motorConfig);
 
     private final FlyWheelConfig kickerConfig =
-            new FlyWheelConfig(motor)
-                    .withDiameter(Inches.of(2))
-                    .withMass(Pounds.of(0.7))
+            new FlyWheelConfig()
                     .withTelemetry("Kicker", TelemetryVerbosity.HIGH);
 
-    private final FlyWheel kicker = new FlyWheel(kickerConfig);
+    private final FlyWheel kicker = new FlyWheel(kickerConfig,motor);
 
     public Command setDutyCycleCommand(double dutyCycle) {
         return kicker.set(dutyCycle);
@@ -60,7 +59,7 @@ public class KickerSubsystem extends SubsystemBase {
     }
 
     public Command setVelocityCommand(AngularVelocity rpm) {
-        return kicker.setSpeed(rpm);
+        return kicker.run(rpm);
     }
 
     public void setVelocitySetpoint(AngularVelocity velocity) {

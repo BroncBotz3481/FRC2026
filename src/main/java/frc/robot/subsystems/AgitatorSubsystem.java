@@ -38,18 +38,17 @@ public class AgitatorSubsystem extends SubsystemBase {
                     .withMotorInverted(false)
                     .withFeedforward(new SimpleMotorFeedforward(0, 0, 0))
                     .withSimFeedforward(new SimpleMotorFeedforward(0, 0.5, 0))
-                    .withControlMode(ControlMode.CLOSED_LOOP);
+                    .withControlMode(ControlMode.CLOSED_LOOP)
+                    .withMomentOfInertia(Inches.of(4), Pounds.of(1));
 
     private final SmartMotorController motor =
             new SparkWrapper(agitatorMotor, DCMotor.getNEO(1), motorConfig);
 
     private final FlyWheelConfig agitatorConfig =
-            new FlyWheelConfig(motor)
-                    .withDiameter(Inches.of(2))
-                    .withMass(Pounds.of(1.2))
+            new FlyWheelConfig()
                     .withTelemetry("Agitator", TelemetryVerbosity.HIGH);
 
-    private final FlyWheel agitator = new FlyWheel(agitatorConfig);
+    private final FlyWheel agitator = new FlyWheel(agitatorConfig,motor);
 
     public AgitatorSubsystem() {
     }
