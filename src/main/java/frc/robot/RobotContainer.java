@@ -98,8 +98,8 @@ public class RobotContainer
                            () -> m_driverController.getLeftX() * -1)
                        .withControllerRotationAxis(() -> m_driverController.getRightX() * -1)
                        .deadband(OperatorConstants.DEADBAND)
-                       .scaleTranslation(1.0)
-                       .scaleRotation(0.8)
+                       .scaleTranslation(Constants.DemoConstants.scaleTranslation)
+                       .scaleRotation(Constants.DemoConstants.scaleRotation)
                        .allianceRelativeControl(true);
 
 
@@ -244,9 +244,9 @@ public class RobotContainer
  
   public void operatorControls(){
 
-    m_operatorController.povRight().whileTrue(new ShootKickIndexCommand(turretFlywheel, kicker, indexer, agitator, hood, RPM.of(1500)));
-    m_operatorController.x().whileTrue(new ShootKickIndexCommand(turretFlywheel, kicker, indexer, agitator, hood, RPM.of(2400)));
-    m_operatorController.y().whileTrue(new ShootKickIndexCommand(turretFlywheel, kicker, indexer, agitator, hood, RPM.of(3000)));
+    m_operatorController.povRight().whileTrue(new ShootKickIndexCommand(turretFlywheel, kicker, indexer, agitator, hood, RPM.of(Constants.DemoConstants.ShooterSpeedPovRight)));
+    m_operatorController.x().whileTrue(new ShootKickIndexCommand(turretFlywheel, kicker, indexer, agitator, hood, RPM.of(Constants.DemoConstants.ShooterSpeedX)));
+    m_operatorController.y().whileTrue(new ShootKickIndexCommand(turretFlywheel, kicker, indexer, agitator, hood, RPM.of(Constants.DemoConstants.ShooterSpeedY)));
 
 
     m_operatorController.rightTrigger(0.2).whileTrue(new ShootKickIndexCommand(turretFlywheel,
@@ -266,7 +266,7 @@ public class RobotContainer
     m_operatorController.start().and(m_operatorController.back()).onTrue(intakeArm.resetEncoderCommand());
     m_operatorController.b().whileTrue(new OutakeCommand(intakeRoller, agitator));
     m_operatorController.a().whileTrue(new UnstuckCommand(kicker, indexer, agitator));
-    m_operatorController.povLeft().whileTrue(new PassCommand(turretFlywheel, kicker, indexer, agitator, hood, RPM.of(4000)));
+    m_operatorController.povLeft().whileTrue(new PassCommand(turretFlywheel, kicker, indexer, agitator, hood, RPM.of(Constants.DemoConstans.PassSpeed)));
     
   }
 

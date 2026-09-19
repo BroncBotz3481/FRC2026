@@ -29,8 +29,19 @@ import static edu.wpi.first.units.Units.*;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static final boolean DemoMode = true;
   public static final double maxSpeed = 4.5; // meters per second
   public static boolean disableHAL = false;
+
+  public static class DemoConstants{
+    public static double scaleTranslation = DemoMode ? 0.2 : 1;
+    public static double scaleRotation = DemoMode ? 0.2:0.8;
+    public static int ShooterSpeedPovRight = DemoMode ? 1000:1500;
+    public static int ShooterSpeedX = DemoMode ? 1000:2400;
+    public static int ShooterSpeedY = DemoMode ? 1000:3000;
+    public static int PassSpeed = DemoMode ? 1000:4000;
+
+  }
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;

@@ -108,7 +108,7 @@ public class TurretSubsystem extends SubsystemBase {
                             Meters.of(0.5))); // up from the floor reference
 
     private final PivotConfig m_config =
-            new PivotConfig(motor)
+            new PivotConfig()
                     .withHardLimit(Degrees.of(-155), Degrees.of(155))
                     .withSoftLimits(Degrees.of(-135), Degrees.of(135))
                     .withTelemetry("TurretPivot", TelemetryVerbosity.HIGH)
@@ -116,7 +116,7 @@ public class TurretSubsystem extends SubsystemBase {
                     .withMechanismPositionConfig(robotToMechanism)
                     .withMOI(Meter.of(0.001), Pounds.of(8));
 
-    private final Pivot turret = new Pivot(m_config);
+    private final Pivot turret = new Pivot(m_config,motor);
 
     // Robot to turret transform, from center of robot to turret.
     private final Transform3d roboToTurret = new Transform3d(Feet.of(-1.5), Feet.of(0), Feet.of(0.5), Rotation3d.kZero);

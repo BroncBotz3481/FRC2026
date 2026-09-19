@@ -34,7 +34,7 @@ public class ClimberSubsystem extends SubsystemBase {
     /**
      * {@link SmartMotorControllerConfig} for the elevator motor.
      */
-    private final SmartMotorControllerConfig smcConfig =
+   /* */ private final SmartMotorControllerConfig smcConfig =
             new SmartMotorControllerConfig(this)
                     .withControlMode(ControlMode.CLOSED_LOOP)
                     // Mechanism Circumference is the distance traveled by each mechanism rotation converting
