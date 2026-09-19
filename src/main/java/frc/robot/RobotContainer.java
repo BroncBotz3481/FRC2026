@@ -266,7 +266,7 @@ public class RobotContainer
     m_operatorController.start().and(m_operatorController.back()).onTrue(intakeArm.resetEncoderCommand());
     m_operatorController.b().whileTrue(new OutakeCommand(intakeRoller, agitator));
     m_operatorController.a().whileTrue(new UnstuckCommand(kicker, indexer, agitator));
-    m_operatorController.povLeft().whileTrue(new PassCommand(turretFlywheel, kicker, indexer, agitator, hood, RPM.of(Constants.DemoConstans.PassSpeed)));
+    m_operatorController.povLeft().whileTrue(new PassCommand(turretFlywheel, kicker, indexer, agitator, hood, RPM.of(Constants.DemoConstants.PassSpeed)));
     
   }
 
