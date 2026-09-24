@@ -230,7 +230,7 @@ public class RobotContainer
 
   public void driverControls(){
     m_driverController.a().and(()->!DriverStation.isTest()).whileTrue(new AutoAimCommand(drivebase, driveAngularVelocity));
-    m_driverController.rightBumper().whileTrue(new slowMode(drivebase, driveAngularVelocity));
+    //m_driverController.rightBumper().whileTrue(new slowMode(drivebase, driveAngularVelocity));
     m_driverController.leftBumper().whileTrue(drivebase.lockPos());
     m_driverController.start().and(m_driverController.back()).onTrue(drivebase.zeroGyroWithAlliance());
     m_driverController.x().whileTrue(agitator.setDutyCycleCommand(-0.2));
@@ -259,7 +259,7 @@ public class RobotContainer
 
     m_operatorController.leftTrigger(0.3).whileTrue(new IntakeCommand(intakeRoller, agitator, indexer));
     m_operatorController.leftBumper().onTrue(intakeArm.setAngleCommand(Setpoints.Intake.intakeArmAngleIntake).withTimeout(1.3));
-    m_operatorController.rightBumper().whileTrue(((new IntakeAgitateCommand(intakeArm).andThen(Commands.waitTime(Seconds.of(0.3)))).withTimeout(1.2)).repeatedly());
+    //m_operatorController.rightBumper().whileTrue(((new IntakeAgitateCommand(intakeArm).andThen(Commands.waitTime(Seconds.of(0.3)))).withTimeout(1.2)).repeatedly());
     m_operatorController.povDown().onTrue( intakeArm.setAngleCommand(Setpoints.Intake.intakeArmAngleDown.plus(Degrees.of(20))).withTimeout(.5).andThen(intakeArm.setAngleCommand(Setpoints.Intake.intakeArmAngleDown).withTimeout(1.3)));
     m_operatorController.povUp().onTrue(intakeArm.setAngleCommand(Setpoints.Intake.intakeArmAngleUp).withTimeout(1.3));
     //m_operatorController.povUp().whileTrue(intakeArm.setAngleCommand(Setpoints.Intake.intakeArmAngleUp));

@@ -355,7 +355,7 @@ public class SwerveSubsystem extends SubsystemBase
   {
     return run(
         () -> {
-          swerveDrive.driveFieldOriented(velocity.get());
+          swerveDrive.driveFieldOrientedAndRobotOriented(getRobotVelocity(), getFieldVelocity());
         });
   }
 
