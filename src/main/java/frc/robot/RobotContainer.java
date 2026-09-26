@@ -100,7 +100,7 @@ public class RobotContainer
                        .deadband(OperatorConstants.DEADBAND)
                        .scaleTranslation(Constants.DemoConstants.scaleTranslation)
                        .scaleRotation(Constants.DemoConstants.scaleRotation)
-                       .allianceRelativeControl(true)
+                       .allianceRelativeControl(false)
                        .robotRelative(true); //this keeps crashing
 
 
