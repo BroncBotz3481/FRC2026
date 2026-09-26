@@ -100,7 +100,8 @@ public class RobotContainer
                        .deadband(OperatorConstants.DEADBAND)
                        .scaleTranslation(Constants.DemoConstants.scaleTranslation)
                        .scaleRotation(Constants.DemoConstants.scaleRotation)
-                       .allianceRelativeControl(true);
+                       .allianceRelativeControl(true)
+                       .robotRelative(true); //this keeps crashing
 
 
   Command driveFieldOrientedAngularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);

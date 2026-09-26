@@ -96,7 +96,7 @@ public class IntakeArmSubsystem extends SubsystemBase
 
      //.withExternalEncoderZeroOffset(Degrees.of(-19.31)) // Remove if configured in REV HW Client
       .withResetPreviousConfig(true)
-      .withStartingPosition(Degrees.of(-180));
+      .withStartingPosition(Degrees.of(67));
 
   private SmartMotorController       masterMotorController   = new SparkWrapper(m_masterMotor, DCMotor.getNEO(2),
                                                                                 masterConfig);

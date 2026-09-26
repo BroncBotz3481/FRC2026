@@ -115,8 +115,8 @@ public final class Constants {
   public static final Mass weight = Pounds.of(11);
   public static final Distance length = Inches.of(19.25);
 
-  public static final Angle softLowerLimit = Degrees.of(-600);
-  public static final Angle softUpperLimit = Degrees.of(768);
+  public static final Angle softLowerLimit = Degrees.of(-3);
+  public static final Angle softUpperLimit = Degrees.of(70);
   public static final Angle hardLowerLimit = Degrees.of(-3);
   public static final Angle hardUpperLimit = Degrees.of(70);
 
